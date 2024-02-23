@@ -1,0 +1,71 @@
+.tags-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    min-height: 30px; /* Añadido para evitar que el contenido desaparezca completamente */
+}
+
+.tag {
+    background-color: #007bff;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.hero {
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+.recetas-trending {
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+.btn-explorar{
+    background: linear-gradient(to right, #0744b4, #03338d);
+    border: linear-gradient(to right, #0744b4, #03338d);
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+.image-container:hover {
+    transform: scale(1.1); /* Hacer el contenedor un poco más grande al hacer hover */
+}
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Color blanco con opacidad */
+    padding: 10px;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease; /* Transición suave */
+    opacity: 0.8; /* Opacidad inicial */
+}
+.image-container:hover .image-overlay {
+    opacity: 1; /* Mostrar la descripción al hacer hover sobre el contenedor */
+}
+.image-overlay h3,
+.image-overlay p {
+    margin: 0;
+}
+
+body {
+    background: linear-gradient(to right, #f8f1f1, #ebddcf); 
+    min-height: 100vh;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
