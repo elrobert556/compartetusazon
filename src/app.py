@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, logout_user, login_required
 from config import config
+
+#Controladores
+from controllers.ControllerReceta import ControllerReceta
+from controllers.ControllerUser import ControllerUser
 
 #Modelos
 from models.ModelUser import ModelUser
+#from models.ModelRecetas import ModelReceta
 
 #Entities
-from models.entities.User import User
+#from models.entities.User import User
 
 app = Flask(__name__)
 
@@ -24,30 +29,33 @@ def load_user(id):
 
 @app.route('/')
 def index():
-    return render_template('auth/index.html')
+    return ControllerReceta.popular_recipes(db)
+
+@app.route('/recetas')
+def recetas():
+    return ControllerReceta.listar_recetas(db)
+
+@app.route('/recetas/<nombre_receta>')
+def ver_receta(nombre_receta):
+    return ControllerReceta.ver_receta(db, nombre_receta)
+
+@app.route('/contact')
+def contact():
+    return render_template('auth/contact.html')
+
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        user = User(0, request.form['email'], request.form['password'])
-        logged_user = ModelUser.login(db, user)
-        if logged_user != None:
-            if logged_user.password:
-                login_user(logged_user)
-                return redirect(url_for('home'))
-            else:
-                flash("Invalid Password")
-                return render_template('auth/login.html')
-        else:
-            flash("User not Found")
-            return render_template('auth/login.html')
-    else:
-        return render_template('auth/login.html')
+    return ControllerUser.verificar_usuario(db)
 
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+    return ControllerUser.registrar_usuario(db)
 
 @app.route('/protected')
 @login_required
@@ -63,7 +71,7 @@ def status_404(error):
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    return render_template('auth/index.html')
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])

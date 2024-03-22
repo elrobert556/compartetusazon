@@ -19,10 +19,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    <a class="nav-link active" aria-current="page" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="recetas.html">Recetas</a>
+                    <a class="nav-link" href="/recetas">Recetas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Comunidad</a>
@@ -30,6 +30,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contacto</a>
                 </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Registrate</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -44,7 +56,7 @@
                 <p class="lead">Comparte tus recetas y descubre nuevas formas de cocinar de manera inclusiva.
                     Encuentra inspiración para adaptar tus platos favoritos a diferentes necesidades dietéticas y
                     capacidades.</p>
-                <a href="#" class="btn btn-primary btn-lg btn-explorar">Explorar Recetas</a>
+                <a href="/recetas" class="btn btn-primary btn-lg btn-explorar">Explorar Recetas</a>
             </div>
             <div class="col-lg-6">
                 <!-- Placeholder for an image -->
@@ -72,33 +84,18 @@
     <div class="container">
         <h2 class="text-center mb-4">Conoce nuestras recetas mas populares</h2>
         <div class="row">
+            {% for recipes in recipes %}
             <div class="col-lg-4">
                 <div class="image-container">
-                    <img src="{{ url_for('static', filename='img/receta-home-1.jpg') }}" class="img-fluid" alt="Receta de espagueti">
+                    <a href="{{ url_for('ver_receta', nombre_receta=recipes.ruta_receta) }}"><img src="{{ url_for('static', filename='img/' + recipes.img_receta) }}" class="img-fluid" alt="{{ recipes.titulo_receta }}"></a>
                     <div class="image-overlay">
-                        <h3>Receta de espagueti</h3>
-                        <p>Breve descripción sobre el espagueti.</p>
+                        <h3>{{ recipes.titulo_receta }}</h3>
+                        <p>{{ recipes.descripcion_receta }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="image-container">
-                    <img src="{{ url_for('static', filename='img/receta-home-2.jpg') }}" class="img-fluid" alt="Receta de estofado">
-                    <div class="image-overlay">
-                        <h3>Receta de estofado</h3>
-                        <p>Breve descripción sobre el estofado.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="image-container">
-                    <img src="{{ url_for('static', filename='img/receta-home-3.jpg') }}" class="img-fluid" alt="Receta de comida china">
-                    <div class="image-overlay">
-                        <h3>Receta de comida china</h3>
-                        <p>Breve descripción sobre la comida china.</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+            
         </div>
     </div>
 </section>

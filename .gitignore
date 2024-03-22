@@ -1,0 +1,25 @@
+# Archivos de caché de Python
+__pycache__/
+
+# Archivos de byte compilados de Python
+*.pyc
+*.pyo
+*.pyd
+
+# Directorio de ambiente virtual (si usas uno)
+venv/
+env/
+
+# Carpeta de construcción
+build/
+dist/
+*.egg-info/
+
+# Archivos de registro y caché
+*.log
+*.cache
+
+# Carpeta de archivos de usuario
+*.swp
+*~
+.DS_Store

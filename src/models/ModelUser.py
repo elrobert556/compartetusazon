@@ -31,3 +31,15 @@ class ModelUser():
                 return None
         except Exception as ex:
             raise Exception(ex)
+        
+    @classmethod
+    def registrar_usuario(cls, db, nombre, apellido, telefono, email, hashed_password):
+        try:
+            cursor = db.connection.cursor()
+            sql = "INSERT INTO usuarios (nombre_usuario, apellido_usuario, telefono_usuario, email_usuario, password_usuario) VALUES (%s, %s,%s,%s,%s)"
+            cursor.execute(sql, (nombre, apellido, telefono, email, hashed_password))
+            db.connection.commit()
+            return True  # Retorna True si el registro se realizó con éxito
+        except Exception as ex:
+            db.connection.rollback()
+            return None  # Retorna None si se produce un error
