@@ -8,6 +8,17 @@ class DevelopmentConfig(Config):
     MYSQL_PASSWORD = ''
     MYSQL_DB = 'compartetusazon'
     
+class EmailConfig:
+    # Configuración de correo electrónico
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'compartetusazon@gmail.com'
+    MAIL_PASSWORD = 'qphomyjdgjudqjer'
+
+    
 config={
-    'development': DevelopmentConfig
+    'development': DevelopmentConfig,
+    'email': EmailConfig
 }

@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for,request
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, logout_user, login_required
+from flask_mailman import Mail
 from config import config
 
 #Controladores
@@ -10,12 +11,12 @@ from controllers.ControllerUser import ControllerUser
 
 #Modelos
 from models.ModelUser import ModelUser
-#from models.ModelRecetas import ModelReceta
-
-#Entities
-#from models.entities.User import User
 
 app = Flask(__name__)
+
+app.config.from_object(config['email'])
+
+mail = Mail(app)
 
 csrf = CSRFProtect()
 
@@ -31,18 +32,40 @@ def load_user(id):
 def index():
     return ControllerReceta.popular_recipes(db)
 
+@app.route('/new_recipe', methods=['GET','POST'])
+@login_required
+def new_recipe():
+    return ControllerReceta.nueva_receta(db)
+
 @app.route('/recetas')
 def recetas():
     return ControllerReceta.listar_recetas(db)
+
+@app.route('/accesibilidad')
+def accesibilidad():
+    return ControllerReceta.listar_recetas_especiales(db)
 
 @app.route('/recetas/<nombre_receta>')
 def ver_receta(nombre_receta):
     return ControllerReceta.ver_receta(db, nombre_receta)
 
+@app.route('/me_gusta', methods=['POST'])
+@login_required
+def me_gusta():
+    return ControllerReceta.me_gusta(db)
+
+@app.route('/comment', methods=['POST'])
+@login_required
+def comment():
+    return ControllerReceta.agregar_comentario(db)
+
 @app.route('/contact')
 def contact():
     return render_template('auth/contact.html')
 
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    return ControllerUser.send_email()
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -56,6 +79,18 @@ def logout():
 @app.route('/register', methods=['GET','POST'])
 def register():
     return ControllerUser.registrar_usuario(db)
+
+@app.route('/forgotPassword', methods=['GET','POST'])
+def forgotPassword():
+    return ControllerUser.forgot_password(db)
+
+@app.route('/newPassword')
+def verify_email():
+    return render_template('auth/emailConfirmation.html')
+
+@app.route('/newPassword/<token>', methods=['GET','POST'])
+def newPassword(token):
+    return ControllerUser.new_password(db,token)
 
 @app.route('/protected')
 @login_required

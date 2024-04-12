@@ -7,11 +7,51 @@
 {% endblock %}
 
 {% block body %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">compartetusazon</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/recetas">Recetas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accesibilidad">Recetas especiales</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact">Contacto</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('logout') }}">Cerrar sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Registrate</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 <section class="ftco-section">
     <div class="container">
     <div class="row justify-content-center">
     <div class="col-md-6 text-center mb-5">
-    <h2 class="heading-section">Contact Form #03</h2>
+    <h2 class="heading-section">Pagina de contacto</h2>
     </div>
     </div>
     <div class="row justify-content-center">
@@ -34,7 +74,7 @@
     <span class="fa fa-phone"></span>
     </div>
     <div class="text">
-    <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+    <p><span>Phone:</span> <a href="tel://1234567920">+ 52 878 138 6020</a></p>
     </div>
     </div>
     </div>
@@ -44,7 +84,7 @@
     <span class="fa fa-paper-plane"></span>
     </div>
     <div class="text">
-    <p><span>Email:</span> <a href="/cdn-cgi/l/email-protection#0a63646c654a73657f7879637e6f24696567"><span class="__cf_email__" data-cfemail="1c75727a735c6573696e6f756879327f7371">[email&#160;protected]</span></a></p>
+    <p><span>Email:</span> <a href="/cdn-cgi/l/email-protection#0a63646c654a73657f7879637e6f24696567"><span class="__cf_email__" data-cfemail="1c75727a735c6573696e6f756879327f7371">compartetusazon@gmail.com</span></a></p>
     </div>
     </div>
     </div>
@@ -54,7 +94,7 @@
     <span class="fa fa-globe"></span>
     </div>
     <div class="text">
-    <p><span>Website</span> <a href="#">yoursite.com</a></p>
+    <p><span>Sitio web</span> <a href="http://localhost:5000/">compartetusazon.com</a></p>
     </div>
     </div>
     </div>
@@ -62,40 +102,38 @@
     <div class="row no-gutters">
     <div class="col-md-7">
     <div class="contact-wrap w-100 p-md-5 p-4">
-    <h3 class="mb-4">Contact Us</h3>
+    <h3 class="mb-4">Contactanos</h3>
     <div id="form-message-warning" class="mb-4"></div>
-    <div id="form-message-success" class="mb-4">
-    Your message was sent, thank you!
-    </div>
-    <form method="POST" id="contactForm" name="contactForm" class="contactForm">
+    <form method="post" class="contactForm" action="/send_email">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="row">
     <div class="col-md-6">
     <div class="form-group">
-    <label class="label" for="name">Full Name</label>
-    <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+    <label class="label" for="name">Nombre</label>
+    <input type="text" class="form-control" name="nombre" id="name" placeholder="Name">
     </div>
     </div>
     <div class="col-md-6">
     <div class="form-group">
-    <label class="label" for="email">Email Address</label>
+    <label class="label" for="email">Correo Electrónico</label>
     <input type="email" class="form-control" name="email" id="email" placeholder="Email">
     </div>
     </div>
     <div class="col-md-12">
     <div class="form-group">
-    <label class="label" for="subject">Subject</label>
-    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+    <label class="label" for="subject">Asunto</label>
+    <input type="text" class="form-control" name="asunto" id="asunto" placeholder="Subject">
     </div>
     </div>
     <div class="col-md-12">
     <div class="form-group">
-    <label class="label" for="#">Message</label>
-    <textarea name="message" class="form-control" id="message" cols="30" rows="4" placeholder="Message"></textarea>
+    <label class="label" for="#">Mensaje</label>
+    <textarea name="mensaje" class="form-control" id="message" cols="30" rows="4" placeholder="Message"></textarea>
     </div>
     </div>
     <div class="col-md-12">
     <div class="form-group">
-    <input type="submit" value="Send Message" class="btn btn-primary">
+    <input type="submit" value="Enviar correo" class="btn btn-primary">
     <div class="submitting"></div>
     </div>
     </div>

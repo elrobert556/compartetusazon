@@ -50,10 +50,9 @@
 
 <section class="light">
     <div class="container mt-5">
-        <h1 class="mb-4">Recetas</h1>
+        <h1 class="mb-4">Recetas para personas con alguna alergia o problema de salud</h1>
         <div class="row">
             <input type="text" id="searchInput" class="form-control col-lg-8" placeholder="Buscar recetas...">
-            <a href="/new_recipe"><button type="button" class="btn btn-primary btn-lg btn-explorar col-lg-4">Crea tu propia receta</button></a>
         </div>
         <div class="row">
             {% for recipe in recipes %}
@@ -75,8 +74,7 @@
                                         <button type="submit" style="background:none; border:none; cursor:pointer;">
                                           <i id="icono" class="fa-regular fa-heart" onclick="cambiarIcono();"></i>
                                         </button>
-                                    
-                                    <a href="{{ url_for('ver_receta', nombre_receta=recipe.ruta) }}">Ver más -></a> <!-- Enlazar a la página de la receta si tienes una -->
+                                     <!-- Enlazar a la página de la receta si tienes una -->
                                     </form>
                                 </p>
                             </div>

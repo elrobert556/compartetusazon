@@ -43,3 +43,37 @@ class ModelUser():
         except Exception as ex:
             db.connection.rollback()
             return None  # Retorna None si se produce un error
+        
+    @classmethod
+    def verificar_token(self, db, token):
+        try:
+            cursor = db.connection.cursor()
+            sql = "SELECT email_usuario FROM usuarios WHERE token_recuperacion = %s"
+            cursor.execute(sql, (token,))
+            user = cursor.fetchone()
+            if user != None:
+                return user,True
+            else:
+                return None, False
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def set_token(cls, db, token, email):
+        try:
+            cursor = db.connection.cursor()
+            sql = "UPDATE usuarios SET token_recuperacion=%s WHERE email_usuario=%s"
+            cursor.execute(sql, (token,email,))
+            db.connection.commit()
+        except Exception as ex:
+            db.connection.rollback()
+            
+    @classmethod
+    def change_password(cls, db, pwd, token):
+        try:
+            cursor = db.connection.cursor()
+            sql = "UPDATE usuarios SET password_usuario=%s WHERE token_recuperacion=%s"
+            cursor.execute(sql, (pwd,token))
+            db.connection.commit()
+        except Exception as ex:
+            db.connection.rollback()

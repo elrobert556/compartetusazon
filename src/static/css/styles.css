@@ -1,3 +1,11 @@
+.card-box .card-drop {
+  color: #9a9da0;
+  font-size: 20px;
+  line-height: 1px;
+  padding: 0px 5px;
+  display: inline-block;
+}
+
 .tags-input-container {
     display: flex;
     flex-wrap: wrap;
@@ -96,3 +104,4 @@ footer {
     text-align: center;
     padding: 20px 0;
 }
+

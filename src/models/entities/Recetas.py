@@ -15,3 +15,13 @@ class Receta:
 
     def __repr__(self):
         return f"Recipe(id={self.id}, name={self.titulo}, description={self.descripcion}, name={self.pasos}, status={self.status}, user={self.usuario}, ruta={self.ruta}, vistas={self.vistas}, img={self.img}, fav={self.fav})"
+    
+class RecetaEspecial:
+    def __init__(self, id_receta, titulo_receta , descripcion_receta, img_receta):
+        self.id = id_receta
+        self.titulo = titulo_receta
+        self.descripcion = descripcion_receta
+        self.img = img_receta
+
+    def __repr__(self):
+        return f"Recipe(id={self.id}, name={self.titulo}, description={self.descripcion}, img={self.img})"

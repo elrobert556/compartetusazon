@@ -25,10 +25,10 @@
                     <a class="nav-link" href="/recetas">Recetas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Comunidad</a>
+                    <a class="nav-link" href="/accesibilidad">Recetas especiales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contacto</a>
+                    <a class="nav-link" href="/contact">Contacto</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
@@ -90,7 +90,7 @@
                     <a href="{{ url_for('ver_receta', nombre_receta=recipes.ruta_receta) }}"><img src="{{ url_for('static', filename='img/' + recipes.img_receta) }}" class="img-fluid" alt="{{ recipes.titulo_receta }}"></a>
                     <div class="image-overlay">
                         <h3>{{ recipes.titulo_receta }}</h3>
-                        <p>{{ recipes.descripcion_receta }}</p>
+                        {{ recipes.descripcion_receta | safe}}
                     </div>
                 </div>
             </div>
@@ -105,10 +105,9 @@
     <div class="container text-center">
         <h2>Síguenos en Redes Sociales</h2>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="#"><i class="fa-brands fa-facebook-f fa-xl"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fa-brands fa-x-twitter fa-xl"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fa-brands fa-instagram fa-xl"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fa-brands fa-pinterest fa-xl"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.facebook.com/"><i class="fa-brands fa-facebook-f fa-xl"></i></a></li>
+            <li class="list-inline-item"><a href="https://twitter.com/home?lang=es"><i class="fa-brands fa-x-twitter fa-xl"></i></a></li>
+            <li class="list-inline-item"><a href="https://www.instagram.com/"><i class="fa-brands fa-instagram fa-xl"></i></a></li>
         </ul>
     </div>
 </section>
@@ -126,20 +125,25 @@
             </div>
             <div class="col-md-6">
                 <!-- Formulario de Contacto -->
-                <form>
+                <form action="/send_email" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label for="asunto" class="form-label">Asunto</label>
+                        <input type="text" class="form-control" name="asunto">
+                    </div>
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre">
+                        <input type="text" class="form-control" name="nombre">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="email">
+                        <input type="email" class="form-control" name="email">
                     </div>
                     <div class="mb-3">
                         <label for="mensaje" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="mensaje" rows="5"></textarea>
+                        <textarea class="form-control" name="mensaje" rows="5"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <input class="btn btn-primary" type="submit" value="Enviar">
                 </form>
                 <!-- Información de Contacto -->
                 <div class="mt-4">
